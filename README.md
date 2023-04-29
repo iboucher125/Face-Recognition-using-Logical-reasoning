@@ -12,7 +12,7 @@ Our project utilizes the following object recognition models:
 2. RetinaFace: This classifier returns the coordinates of eyes, nose, mouth, and the confidence score.
 3. DeepFace: This library performs facial recognition as well as facial attribute analysis (same person?, age, gender, emotion, etc.).
 ## Components
-** Recognition Models **
+Recognition Models:
 * CLIP: https://colab.research.google.com/drive/1-oraUeUHtXJbXNLI7SuIAXS2t6AZ3teC?usp=sharing 
 * RetnaFace: https://colab.research.google.com/drive/1YKyvq6uzP7xiMcX5SiU-gOlSR4xwmzc-?usp=sharing 
 * DeepFace: https://colab.research.google.com/drive/1aRN3zi2Zm06efJhbBRvKZpiB2lzS9NIQ?usp=sharing
