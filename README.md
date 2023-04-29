@@ -22,13 +22,15 @@ Here is an example command to generate facts from the retina_face data:
 ```
 python3 fact_generator.py retina_face.csv RetinaFace facts.txt
 ```
-** Facts & Rules **
+Facts & Rules:
 * facts_rules.txt - File produced by fact_generator.py. Rules used for the inference engine are encluded at the bottom of the file.
-** Knowldge Base & Inference Engine **
+
+Knowldge Base & Inference Engine:
 * kb_classes.py
 * logical_classes.py
 * util.py
 * read.py
-** Testing **
+
+Testing:
 * main.py
 
