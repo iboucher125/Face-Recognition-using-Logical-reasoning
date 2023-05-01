@@ -16,13 +16,97 @@ class KBTest(unittest.TestCase):
                 self.KB.kb_assert(item)
         
     def test1(self):
-        # Did the student code contain syntax errors, AttributeError, etc.
-        ask1 = read.parse_input("fact: (DetectFace ?x ?y)")
-        print(' Asking if', ask1)
-        answer = self.KB.kb_ask(ask1)
-        for i in range(len(answer)):
-            print("here", str(answer[i]))
-        # self.assertEqual(str(answer[0]), "?X : bing")
+        # Produces confusion matrix fro Retina Face
+        detect_face = read.parse_input("fact: (DetectFace ?x DeepFace)")
+        answer_face = self.KB.kb_ask(detect_face)
+        all_face = len(answer_face)
+        detect_nonface = read.parse_input("fact: (DetectNonFace ?x DeepFace)")
+        answer_nonface = self.KB.kb_ask(detect_nonface)
+        all_nonface = len(answer_nonface)
+        tp = 0
+        fn = 0
+        fp = 0
+        tn = 0
+        for i in range(all_face):
+            if "nf" in str(answer_face[i]):
+                fp += 1
+            else:
+                tp += 1
+        for i in range(all_nonface):
+            if "nf" in str(answer_nonface[i]):
+                tn += 1
+            else:
+                fn += 1
+        print("DEEPFACE")
+        print("                           -Actual-   ")
+        print("             __________________________________")
+        print("           |          | Face", "| Non-Face ")
+        print("           |  ________|______|_________________")
+        print("-Predicted-|", "Face    ", "|  " + str(tp) + "  ", "|  " + str(fp))
+        print("           |  ________|______|_________________")
+        print("           |", "Non-Face", "|  " + str(fn) + "  ", "|  " + str(tn))
+
+    def test2(self):
+        # Produces confusion matrix fro Deep Face
+        detect_face = read.parse_input("fact: (DetectFace ?x RetinaFace)")
+        answer_face = self.KB.kb_ask(detect_face)
+        all_face = len(answer_face)
+        detect_nonface = read.parse_input("fact: (DetectNonFace ?x RetinaFace)")
+        answer_nonface = self.KB.kb_ask(detect_nonface)
+        all_nonface = len(answer_nonface)
+        tp = 0
+        fn = 0
+        fp = 0
+        tn = 0
+        for i in range(all_face):
+            if "nf" in str(answer_face[i]):
+                fp += 1
+            else:
+                tp += 1
+        for i in range(all_nonface):
+            if "nf" in str(answer_nonface[i]):
+                tn += 1
+            else:
+                fn += 1
+        print("RETINAFACE")
+        print("                           -Actual-   ")
+        print("             __________________________________")
+        print("           |          | Face", "| Non-Face ")
+        print("           |  ________|______|_________________")
+        print("-Predicted-|", "Face    ", "|  " + str(tp) + "  ", "|  " + str(fp))
+        print("           |  ________|______|_________________")
+        print("           |", "Non-Face", "|  " + str(fn) + "  ", "|  " + str(tn))
+    
+    def test3(self):
+        detect_face = read.parse_input("fact: (ContainsFace ?image)")
+        answer_face = self.KB.kb_ask(detect_face)
+        all_face = len(answer_face)
+        detect_nonface = read.parse_input("fact: (DetectNonFace ?x ?y)")
+        answer_nonface = self.KB.kb_ask(detect_nonface)
+        all_nonface = len(answer_nonface)
+        tp = 0
+        fn = 0
+        fp = 0
+        tn = 0
+        for i in range(all_face):
+            if "nf" in str(answer_face[i]):
+                fp += 1
+            else:
+                tp += 1
+        for i in range(all_nonface):
+            if "nf" in str(answer_nonface[i]):
+                tn += 1
+            else:
+                fn += 1
+        print("ALL MODELS & KB INFERENCE")
+        print("                           -Actual-   ")
+        print("             __________________________________")
+        print("           |          | Face", "| Non-Face ")
+        print("           |  ________|______|_________________")
+        print("-Predicted-|", "Face    ", "|  " + str(tp) + "  ", "|  " + str(fp))
+        print("           |  ________|______|_________________")
+        print("           |", "Non-Face", "|  " + str(fn) + " ", "|  " + str(tn))
+
 
 def pprint_justification(answer):
     """Pretty prints (hence pprint) justifications for the answer.
