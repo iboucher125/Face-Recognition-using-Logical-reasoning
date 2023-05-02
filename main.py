@@ -139,20 +139,26 @@ class KBTest(unittest.TestCase):
         detect_face = read.parse_input("fact: (ContainsFace ?image)")
         answer_face = self.KB.kb_ask(detect_face)
         all_face = len(answer_face)
-        detect_nonface = read.parse_input("fact: (DetectNonFace ?x ?y)")
-        answer_nonface = self.KB.kb_ask(detect_nonface)
-        all_nonface = len(answer_nonface)
         tp = 0
         fn = 0
         fp = 0
         tn = 0
+        face = []
         for i in range(all_face):
-            if "nf" in str(answer_face[i]):
+            curr = str(answer_face[i]).split(" ")[2]
+            face.append(curr)
+            if "nf" in curr:
                 fp += 1
             else:
                 tp += 1
-        for i in range(all_nonface):
-            if "nf" in str(answer_nonface[i]):
+        all = ['f1', 'f2','f3', 'f4','f5', 'f6','f7', 'f8','f9', 'f10',
+               'nf1', 'nf2','nf3', 'nf4','nf5', 'nf6','nf7', 'nf8','nf9', 'nf10']
+        non_face = []
+        for item in all:
+            if item not in face:
+                non_face.append(item)
+        for i in range(len(non_face)):
+            if "nf" in non_face[i]:
                 tn += 1
             else:
                 fn += 1
