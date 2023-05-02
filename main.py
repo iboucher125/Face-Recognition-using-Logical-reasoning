@@ -16,7 +16,7 @@ class KBTest(unittest.TestCase):
                 self.KB.kb_assert(item)
         
     def test1(self):
-        # Prints confusion matix for Retina Face face recognition model
+        # Prints confusion matix for Deep Face face recognition model
         detect_face = read.parse_input("fact: (DetectFace ?x DeepFace)")
         answer_face = self.KB.kb_ask(detect_face)
         all_face = len(answer_face)
@@ -61,7 +61,7 @@ class KBTest(unittest.TestCase):
 
 
     def test2(self):
-        # Prints confusion matix for Deep Face face recognition model
+        # Prints confusion matix for Retina Face Face face recognition model
         detect_face = read.parse_input("fact: (DetectFace ?x RetinaFace)")
         answer_face = self.KB.kb_ask(detect_face)
         all_face = len(answer_face)
