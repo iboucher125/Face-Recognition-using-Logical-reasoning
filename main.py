@@ -16,7 +16,7 @@ class KBTest(unittest.TestCase):
                 self.KB.kb_assert(item)
         
     def test1(self):
-        # Produces confusion matrix fro Retina Face
+        # Prints confusion matix for Retina Face face recognition model
         detect_face = read.parse_input("fact: (DetectFace ?x DeepFace)")
         answer_face = self.KB.kb_ask(detect_face)
         all_face = len(answer_face)
@@ -37,6 +37,14 @@ class KBTest(unittest.TestCase):
                 tn += 1
             else:
                 fn += 1
+        # Accuracy = (TP+TN)/(TP+TN+FP+FN)
+        accuracy = (tp+tn)/(tp+tn+fp+fn)
+        # Precision = TP/(TP+FP)
+        precision = tp/(tp+fp)
+        # Recall = TP/(TP+FN)
+        recall = tp/(tp+fn)
+        # F1 Score = 2 * ((Prec * Rec) / (Prec + Rec))
+        f1 = 2 * ((precision * recall) / (precision + recall))
         print("DEEPFACE")
         print("                           -Actual-   ")
         print("             __________________________________")
@@ -45,9 +53,15 @@ class KBTest(unittest.TestCase):
         print("-Predicted-|", "Face    ", "|  " + str(tp) + "  ", "|  " + str(fp))
         print("           |  ________|______|_________________")
         print("           |", "Non-Face", "|  " + str(fn) + "  ", "|  " + str(tn))
+        print("Accuracy:", accuracy)
+        print("Precision:", precision)
+        print("Recall:", recall)
+        print("F1 Score:", f1)
+        
+
 
     def test2(self):
-        # Produces confusion matrix fro Deep Face
+        # Prints confusion matix for Deep Face face recognition model
         detect_face = read.parse_input("fact: (DetectFace ?x RetinaFace)")
         answer_face = self.KB.kb_ask(detect_face)
         all_face = len(answer_face)
@@ -68,6 +82,10 @@ class KBTest(unittest.TestCase):
                 tn += 1
             else:
                 fn += 1
+        accuracy = (tp+tn)/(tp+tn+fp+fn)
+        precision = tp/(tp+fp)
+        recall = tp/(tp+fn)
+        f1 = 2 * ((precision * recall) / (precision + recall))
         print("RETINAFACE")
         print("                           -Actual-   ")
         print("             __________________________________")
@@ -76,8 +94,48 @@ class KBTest(unittest.TestCase):
         print("-Predicted-|", "Face    ", "|  " + str(tp) + "  ", "|  " + str(fp))
         print("           |  ________|______|_________________")
         print("           |", "Non-Face", "|  " + str(fn) + "  ", "|  " + str(tn))
-    
+        print("Accuracy:", accuracy)
+        print("Precision:", precision)
+        print("Recall:", recall)
+        print("F1 Score:", f1)
+
     def test3(self):
+        # Prints confusion matix for CLIP model
+        detect_object = read.parse_input("fact: (DetectObject ?x CLIP ?y)")
+        answer_object = self.KB.kb_ask(detect_object)
+        all_object = len(answer_object)
+        tp = 0
+        fn = 0
+        fp = 0
+        tn = 0
+        for i in range(all_object):
+            if "nf" in str(answer_object[i]) and "human" in str(answer_object[i]):
+                fp += 1
+            elif " f" in str(answer_object[i]) and "human" in str(answer_object[i]):
+                tp += 1
+            elif "nf" in str(answer_object[i]) and "human" not in str(answer_object[i]):
+                tn += 1
+            else:
+                fn += 1
+        accuracy = (tp+tn)/(tp+tn+fp+fn)
+        precision = tp/(tp+fp)
+        recall = tp/(tp+fn)
+        f1 = 2 * ((precision * recall) / (precision + recall))
+        print("CLIP")
+        print("                           -Actual-   ")
+        print("             __________________________________")
+        print("           |          | Face", "| Non-Face ")
+        print("           |  ________|______|_________________")
+        print("-Predicted-|", "Face    ", "|  " + str(tp) + "  ", "|  " + str(fp))
+        print("           |  ________|______|_________________")
+        print("           |", "Non-Face", "|  " + str(fn) + "  ", "|  " + str(tn))
+        print("Accuracy:", accuracy)
+        print("Precision:", precision)
+        print("Recall:", recall)
+        print("F1 Score:", f1)
+    
+    def test4(self):
+        # Prints confusion matix for face recognition using 3 models and KB inference engine
         detect_face = read.parse_input("fact: (ContainsFace ?image)")
         answer_face = self.KB.kb_ask(detect_face)
         all_face = len(answer_face)
@@ -98,6 +156,10 @@ class KBTest(unittest.TestCase):
                 tn += 1
             else:
                 fn += 1
+        accuracy = (tp+tn)/(tp+tn+fp+fn)
+        precision = tp/(tp+fp)
+        recall = tp/(tp+fn)
+        f1 = 2 * ((precision * recall) / (precision + recall))
         print("ALL MODELS & KB INFERENCE")
         print("                           -Actual-   ")
         print("             __________________________________")
@@ -106,38 +168,11 @@ class KBTest(unittest.TestCase):
         print("-Predicted-|", "Face    ", "|  " + str(tp) + "  ", "|  " + str(fp))
         print("           |  ________|______|_________________")
         print("           |", "Non-Face", "|  " + str(fn) + " ", "|  " + str(tn))
+        print("Accuracy:", accuracy)
+        print("Precision:", precision)
+        print("Recall:", recall)
+        print("F1 Score:", f1)
 
-
-def pprint_justification(answer):
-    """Pretty prints (hence pprint) justifications for the answer.
-    """
-    if not answer: print('Answer is False, no justification')
-    else:
-        print('\nJustification:')
-        for i in range(0,len(answer.list_of_bindings)):
-            # print bindings
-            print(answer.list_of_bindings[i][0])
-            # print justifications
-            for fact_rule in answer.list_of_bindings[i][1]:
-                pprint_support(fact_rule,0)
-        print
-
-def pprint_support(fact_rule, indent):
-    """Recursive pretty printer helper to nicely indent
-    """
-    if fact_rule:
-        print(' '*indent, "Support for")
-
-        if isinstance(fact_rule, Fact):
-            print(fact_rule.statement)
-        else:
-            print(fact_rule.lhs, "->", fact_rule.rhs)
-
-        if fact_rule.supported_by:
-            for pair in fact_rule.supported_by:
-                print(' '*(indent+1), "support option")
-                for next in pair:
-                    pprint_support(next, indent+2)
 
 
 
