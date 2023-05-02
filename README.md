@@ -20,7 +20,7 @@ Recognition Models:
 * fact_generator.py - Produces facts from the output from the recognition models.
 Here is an example command to generate facts from the retina_face data:
 ```
-python3 fact_generator.py retina_face.csv RetinaFace facts.txt
+python3 fact_generator.py retina_face.csv RetinaFace facts_rules.txt
 ```
 Facts & Rules:
 * facts_rules.txt - File produced by fact_generator.py. Rules used for the inference engine are encluded at the bottom of the file.
@@ -32,5 +32,9 @@ Knowldge Base & Inference Engine:
 * read.py
 
 Testing:
-* main.py
+* main.py - Prints the confusion matix for each model and then for the whole multi-modal system.
+```
+python3 main.py
+```
+
 

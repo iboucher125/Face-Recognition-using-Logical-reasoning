@@ -38,8 +38,8 @@ def genOutput(data, output_file):
         
 
 def main():
-    # python3 fact_generator.py retina_face.csv RetinaFace facts.txt
-    # python3 fact_generator.py CLIP.csv CLIP facts.txt
+    # python3 fact_generator.py retina_face.csv RetinaFace facts_rules.txt
+    # python3 fact_generator.py CLIP.csv CLIP facts_rules.txt
     intput_file = open(sys.argv[1], 'r',)
     model_name = sys.argv[2]
     output_file = open(sys.argv[3], 'a',)
