@@ -16,6 +16,7 @@ Recognition Models:
 * CLIP: https://colab.research.google.com/drive/1-oraUeUHtXJbXNLI7SuIAXS2t6AZ3teC?usp=sharing 
 * RetnaFace: https://colab.research.google.com/drive/1YKyvq6uzP7xiMcX5SiU-gOlSR4xwmzc-?usp=sharing 
 * DeepFace: https://colab.research.google.com/drive/1aRN3zi2Zm06efJhbBRvKZpiB2lzS9NIQ?usp=sharing
+
 Fact Genorator:
 * fact_generator.py - Produces facts from the output from the recognition models.
 Here is an example command to generate facts from the retina_face data:
